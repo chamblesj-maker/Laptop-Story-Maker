@@ -1,0 +1,150 @@
+advanced:
+  context_overflow_strategy: truncate
+  max_context_length: 8192
+  max_retries: 3
+  retry_delay: 2
+  validate_continuity: true
+  validate_word_count: true
+backup:
+  auto_backup: true
+  backup_path: backups
+  enabled: true
+  keep_versions: 10
+chapter:
+  scenes_per_chapter: 3
+  smoothing_enabled: true
+  target_words: 4000
+export:
+  formats:
+    audiobook:
+      enabled: false
+      tts_model: piper
+      voice: en_US-lessac-medium
+    epub:
+      enabled: true
+      include_cover: true
+      include_toc: true
+    pdf:
+      enabled: true
+      engine: xelatex
+      font_size: 12
+      margin: 1in
+  output_path: output/{project_name}
+generation:
+  outline:
+    num_ctx: 16384
+    num_predict: 3000
+    repeat_penalty: 1.1
+    temperature: 0.7
+    top_k: 40
+    top_p: 0.85
+  prose:
+    num_ctx: 8192
+    num_predict: 2000
+    repeat_penalty: 1.15
+    temperature: 0.85
+    top_k: 40
+    top_p: 0.9
+  refinement:
+    num_ctx: 8192
+    num_predict: 2500
+    repeat_penalty: 1.2
+    temperature: 0.7
+    top_k: 40
+    top_p: 0.85
+git:
+  auto_commit: false
+  commit_after_chapter: true
+  commit_after_pass: false
+image_generation:
+  api_url: http://localhost:7860
+  backend: automatic1111
+  enabled: false
+  model: sdxl
+  settings:
+    cfg_scale: 7.5
+    height: 1024
+    steps: 30
+    width: 1024
+  upscale:
+    enabled: true
+    model: realesrgan-x4plus
+    scale: 4
+logging:
+  console: true
+  file: logs/storyapp.log
+  level: INFO
+memory:
+  auto_summarize_scenes: true
+  embed_character_bios: true
+  embed_continuity_notes: true
+  embed_scene_summaries: true
+  embed_story_bible: true
+  summary_length: 150
+models:
+  outline:
+    fallback: mistral-nemo:12b
+    primary: deepseek-r1:14b
+    server: http://localhost:11434
+  prose:
+    alternatives:
+    - mistral-nemo:12b
+    - llama3:8b
+    primary: gemma2:9b
+    server: http://localhost:11434
+  refinement:
+    primary: phi4:latest
+    cohesion: phi4:latest
+    polish: phi4:latest
+    server: http://localhost:11434
+    style: gemma2:9b
+  review:
+    fallback: gemma2:9b
+    model: mistral-nemo:12b
+    server: http://localhost:11434
+  summarization:
+    model: llama3:8b
+    server: http://localhost:11434
+paths:
+  chapters: output/{project_name}/chapters
+  memory: memory
+  outlines: outlines
+  prompts: prompts
+  scenes: output/{project_name}/scenes
+  story_bible: story_bible
+performance:
+  cache_enabled: true
+  cache_prompts: true
+  cache_retrievals: true
+  max_workers: 2
+  parallel_scenes: false
+project:
+  author: Your Name
+  base_path: C:/Users/chamb/AI-ML Projects/StoryApp
+  name: PipelineTest
+refinement:
+  enabled: true
+  passes:
+  - enabled: true
+    name: cohesion
+  - enabled: true
+    name: style
+  - enabled: true
+    name: polish
+scene:
+  max_retries: 3
+  max_words: 1800
+  min_words: 1200
+  target_words: 1500
+style:
+  default_pov: third-person limited
+  default_tense: past
+  default_tone: cinematic
+vector_db:
+  collection_name: story_memory
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  path: memory/chroma_db
+  retrieval:
+    min_similarity: 0.6
+    top_k: 5
+  type: chromadb
